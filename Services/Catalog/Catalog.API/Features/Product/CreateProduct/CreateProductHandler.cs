@@ -1,6 +1,7 @@
-﻿using BuildingBlocks.CQRS;
+﻿namespace Catalog.API.Features.Product.CreateProduct;
 
-namespace Catalog.API.Features.Product.CreateProduct;
+using BuildingBlocks.CQRS;
+using Catalog.API.Models;
 
 public record CreateProductCommand(
     string Name,
@@ -14,8 +15,21 @@ public record CreateProductResult(Guid Id);
 
 public class CreateProductHandler : ICommandHandler<CreateProductCommand, CreateProductResult>
 {
-    public Task<CreateProductResult> Handle(CreateProductCommand request, CancellationToken cancellationToken)
+    public async Task<CreateProductResult> Handle(CreateProductCommand command, CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        //Create product entity from command
+        var product = new Product
+        {
+            Category = command.Category,
+            Description = command.Description,
+            Image = command.ImageFile,
+            Price = command.Price,
+            Name = command.Name
+        };
+        //Save product entity to database
+
+        //Return result with created product ID
+
+        return new CreateProductResult(Guid.NewGuid());
     }
 }
